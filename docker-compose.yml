@@ -1,0 +1,42 @@
+services:
+  frontend:
+    build: ./Frontend
+    ports:
+      - 5173:5173
+    networks:
+      - my-network
+    depends_on:
+      - backend
+
+  backend:
+    build: ./Backend
+    ports:
+      - 5068:5068
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=database;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=True;
+      - JWT__Issuer=${JWT_ISSUER}
+      - JWT__Audience=${JWT_AUDIENCE}
+      - JWT__SigningKey=${JWT_SIGNING_KEY}
+      - AllowedHosts=*
+    networks:
+      - my-network
+    depends_on:
+      - database
+
+  database:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+    ports:
+      - 1433:1433
+    networks:
+      - my-network
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+networks:
+  my-network:
+
+volumes:
+  sqlserver_data:
