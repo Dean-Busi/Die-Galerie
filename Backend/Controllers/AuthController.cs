@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Data;
-using api.Dtos;
-using api.Dtos.Authentication;
-using api.Models;
-using api.Services;
+using Backend.Data;
+using Backend.Dtos;
+using Backend.Dtos.Authentication;
+using Backend.Models;
+using Backend.Services;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Controllers
+namespace Backend.Controllers
 {
-    [Route("api/account")]
+    [Route("backend/account")]
     [ApiController]
     public class AuthController : ControllerBase
     {

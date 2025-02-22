@@ -4,6 +4,7 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250221232418_Monster")]
+    partial class Monster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,6 +43,39 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kommentare");
+                });
+
+            modelBuilder.Entity("Backend.Models.Monster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Monster");
+                });
+
+            modelBuilder.Entity("Backend.Models.TestModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestModel");
                 });
 
             modelBuilder.Entity("Backend.Models.User", b =>
@@ -142,13 +178,13 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6d54fa30-4f6c-457c-a116-fd0560715611",
+                            Id = "36af0759-8458-4c44-8ebb-e35f3285e140",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "edbab35b-1226-40ff-93db-b1e3ad6c96cb",
+                            Id = "d8fc8d92-cbd7-444b-b8c1-5ad9b4b37088",
                             Name = "User",
                             NormalizedName = "USER"
                         });

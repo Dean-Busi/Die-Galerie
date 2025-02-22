@@ -6,10 +6,10 @@ using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using api.Models;
+using Backend.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace api.Services
+namespace Backend.Services
 {
 
     public class TokenGenerator

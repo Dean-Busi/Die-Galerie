@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace api.Migrations
+namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class dockerReady : Migration
+    public partial class testModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -179,8 +179,8 @@ namespace api.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "13117fa5-de74-4a83-9c59-0d9fe9240eb1", null, "User", "USER" },
-                    { "4a59355c-de26-4a54-a400-dcee323d9011", null, "Admin", "ADMIN" }
+                    { "0a398149-9ac4-42b4-8fef-2d83651dcb20", null, "User", "USER" },
+                    { "1459cbb2-fece-4500-abea-c8f894596e67", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

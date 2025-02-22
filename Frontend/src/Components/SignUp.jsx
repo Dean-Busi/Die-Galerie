@@ -15,15 +15,7 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const api = axios.create({ baseURL: "http://localhost:5068" });
-
-  // useEffect(() => {
-  //   if (loading) {
-  //     setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  //   }
-  // }, [loading]);
+  const api = axios.create({ baseURL: "http://localhost:8080" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();

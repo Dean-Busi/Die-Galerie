@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Data;
-using api.Dtos;
-using api.Mappers;
-using api.Models;
+using Backend.Data;
+using Backend.Dtos;
+using Backend.Mappers;
+using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
-    [Route("api/comments")]
+    [Route("backend/comments")]
     public class KommentarController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Dtos;
-using api.Models;
+using Backend.Dtos;
+using Backend.Models;
 
-namespace api.Mappers
+namespace Backend.Mappers
 {
     public static class KommentarMapper
     {

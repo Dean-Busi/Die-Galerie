@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.Dtos.Authentication
+namespace Backend.Dtos.Authentication
 {
     public class RegisterDto
     {
