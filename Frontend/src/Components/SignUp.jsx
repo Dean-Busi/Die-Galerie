@@ -15,7 +15,7 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const api = axios.create({ baseURL: "http://localhost:8080" });
+  const api = axios.create({ baseURL: import.meta.env.VITE_AXIOS_URL });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
