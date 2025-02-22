@@ -29,7 +29,7 @@ dist-ssr
 ##
 ## Get latest from `dotnet new gitignore`
 
-# dotenv files
+# dotenv file
 .env
 
 bin
