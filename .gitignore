@@ -30,7 +30,7 @@ dist-ssr
 ## Get latest from `dotnet new gitignore`
 
 # dotenv file
-.env
+# .env
 
 bin
 
