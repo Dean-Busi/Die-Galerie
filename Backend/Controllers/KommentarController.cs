@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("backend/comments")]
+    [Route("comments")]
     public class KommentarController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

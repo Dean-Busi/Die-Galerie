@@ -15,16 +15,19 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const api = axios.create({ baseURL: import.meta.env.VITE_AXIOS_URL });
+  // Diese Zeile importiert die Umgebungsvariable
+  const port = import.meta.env.VITE_API_URL;
+
+  const api = axios.create({ baseURL: `${port}` });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const newUser = { email, password, confirmPassword };
-
+ 
     try {
       setLoading(true);
-      const response = await api.post("/api/account/register", newUser);
+      const response = await api.post("/account/register", newUser);
       console.log(response.data.message);
       sessionStorage.setItem("Signup response", response.data.message);
       navigate("/login");

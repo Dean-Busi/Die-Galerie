@@ -16,7 +16,9 @@ function Login() {
   const response = sessionStorage.getItem("Signup response");
   const bitteEinloggen = sessionStorage.getItem("Bitte einloggen");
 
-  const api = axios.create({ baseURL: "http://localhost:8080" });
+  const port = import.meta.env.VITE_API_URL;
+
+  const api = axios.create({ baseURL: `${port}` });
 
   // HandleSubmit
   const handleSubmit = async (event) => {
@@ -28,7 +30,7 @@ function Login() {
 
       const withCredentials = rememberMe;
 
-      const response = await api.post("/api/account/login", loginCredentials, {
+      const response = await api.post("/account/login", loginCredentials, {
         headers: { "Content-Type": "application/json" },
         withCredentials: withCredentials,
       });

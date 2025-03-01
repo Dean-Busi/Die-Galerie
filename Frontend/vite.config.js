@@ -13,4 +13,27 @@ export default defineConfig({
     strictPort: true,
     port: 5173,
   },
+
+  preview: {
+    watch: {
+      usePolling: true,
+    },
+    host: true,
+    strictPort: true,
+    port: 4173,
+  },
+
+  
+  // Das "build"-Profil musst du eigentlich im Docker-Container einsetzen, 
+  // wenn du deine Applikation hochschalten möchtest ↓
+
+  // build: {
+  //   watch: {
+  //     usePolling: true,
+  //   },
+  //   host: true,
+  //   strictPort: true,
+  //   port: 4173,
+  // },
 });
+

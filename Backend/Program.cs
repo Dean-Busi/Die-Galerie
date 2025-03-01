@@ -98,7 +98,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Diese Zeile ist neu
 if (app.Environment.IsProduction())
 {
     using (var scope = app.Services.CreateScope())
@@ -110,12 +109,12 @@ if (app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
+app.UseCors("ReactApp");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors("ReactApp");
 
 app.Run();
 

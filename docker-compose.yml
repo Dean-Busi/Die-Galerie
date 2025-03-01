@@ -1,6 +1,7 @@
 services:
   frontend:
     build: ./Frontend
+    image: flash11i19/frontend
     ports:
       - 4173:4173
     networks:
@@ -11,15 +12,17 @@ services:
 
   backend:
     build: ./Backend
+    image: flash11i19/backend
     ports:
       - 8080:8080
       - 8081:8081
     environment:
-      - ConnectionStrings__DefaultConnection=Server=mssql;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=${DB_NAME};User Id=${DB_USERID};Password=${SA_PASSWORD};TrustServerCertificate=True;
       - JWT__Issuer=${JWT_ISSUER}
       - JWT__Audience=${JWT_AUDIENCE}
       - JWT__SigningKey=${JWT_SIGNING_KEY}
       - AllowedHosts=*
+      - ASPNETCORE_ENVIRONMENT=Production
     networks:
       - myNetwork
     depends_on:
@@ -27,10 +30,10 @@ services:
     restart: on-failure
 
   mssql:
-    image: mcr.microsoft.com/mssql/server:latest
+    build: ./Database
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=${SA_PASSWORD}
+      - MSSQL_SA_PASSWORD=${SA_PASSWORD}
     ports:
       - 1433:1433
     networks:
@@ -44,3 +47,5 @@ networks:
 
 volumes:
   sqlserver_data:
+
+
