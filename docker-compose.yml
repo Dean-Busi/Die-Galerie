@@ -1,7 +1,8 @@
 services:
   frontend:
     build: ./Frontend
-    image: flash11i19/frontend
+    image: dejanbusi/galerie:frontend
+    container_name: frontend
     ports:
       - 4173:4173
     networks:
@@ -12,10 +13,11 @@ services:
 
   backend:
     build: ./Backend
-    image: flash11i19/backend
+    image: dejanbusi/galerie:backend
+    container_name: backend
     ports:
       - 8080:8080
-      - 8081:8081
+      - 8081:8081 
     environment:
       - ConnectionStrings__DefaultConnection=Server=mssql;Database=${DB_NAME};User Id=${DB_USERID};Password=${SA_PASSWORD};TrustServerCertificate=True;
       - JWT__Issuer=${JWT_ISSUER}
@@ -31,6 +33,8 @@ services:
 
   mssql:
     build: ./Database
+    image: dejanbusi/galerie:database
+    container_name: database
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${SA_PASSWORD}
@@ -47,5 +51,3 @@ networks:
 
 volumes:
   sqlserver_data:
-
-
