@@ -11,7 +11,6 @@ export default defineConfig({
       usePolling: true,
     },
     open: true,
-    host: true,
     strictPort: true,
     port: 5173,
   },
@@ -22,11 +21,9 @@ export default defineConfig({
       usePolling: true,
     },
     open: true,
-    host: true,
     strictPort: true,
     port: 4173,
   },
-
   
   // Das "build"-Profil musst du eigentlich im Docker-Container einsetzen, 
   // wenn du deine Applikation hochschalten möchtest ↓
