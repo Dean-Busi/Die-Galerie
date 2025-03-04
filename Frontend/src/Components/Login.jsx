@@ -13,8 +13,18 @@ function Login() {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
-  const response = sessionStorage.getItem("Signup response");
+  const signupResponse = sessionStorage.getItem("Signup response");
   const bitteEinloggen = sessionStorage.getItem("Bitte einloggen");
+
+  // Löscht die Nachricht, wenn der User von der "Kontakiere Mich"-Seite umgeleitet wird.
+  useEffect(() => {
+
+    return () => {
+      console.log("Session Storage Einträge gelöscht.")
+      sessionStorage.removeItem("Bitte einloggen")
+    };
+
+  }, []);
 
   const port = import.meta.env.VITE_API_URL;
 
@@ -52,27 +62,22 @@ function Login() {
 
       setEmail("");
       setPassword("");
+
     } catch (error) {
       console.log(error);
 
       if (error.response.status === 400) {
         setErrorMessage("Bitte fülle alle Felder aus.");
+        sessionStorage.removeItem("Signup response");
+
       } else {
         setErrorMessage(error.response?.data);
         setEmail("");
         setPassword("");
+        sessionStorage.removeItem("Signup response");
       }
     }
   };
-
-  useEffect(() => {
-
-    return () => {
-      console.log("Session Storage Eintrage gelöscht.")
-      sessionStorage.removeItem("Bitte einloggen")
-    };
-
-  }, []);
 
   const handleCheckout = () => {
     setRememberMe(!rememberMe);
@@ -89,7 +94,6 @@ function Login() {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
         <br /> <br />
         <label htmlFor="password">Passwort: </label>
@@ -98,7 +102,6 @@ function Login() {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
         <br /> <br />
         <label htmlFor="rememberMe">Angemeldet bleiben</label>
@@ -112,9 +115,13 @@ function Login() {
         <button type="submit" id="login" onclick={handleSubmit}>
           Login
         </button>
-        <p style={{ color: "red" }}>{errorMessage}</p>
+
       </form>
-      <p>{response}</p>
+
+      <br />
+      <p style={{backgroundColor: "green", color: "white"}}>{signupResponse}</p>
+
+      <p style={{ color: "red" }}>{errorMessage}</p>
       <br /> <br />
       <h2>Noch kein Konto?</h2>
       <NavLink to="/">

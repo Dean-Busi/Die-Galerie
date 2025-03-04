@@ -11,6 +11,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -31,9 +32,21 @@ function SignUp() {
       console.log(response.data.message);
       sessionStorage.setItem("Signup response", response.data.message);
       navigate("/login");
+      
     } catch (error) {
-      console.log(error);
-      setErrorMessage(error.response?.data || "Registrierung fehlgeschlagen.");
+
+      if(error.response.status == 500)
+      {
+        const passwordErrorMessage = error.response.data;
+        setPasswordErrorMessage(passwordErrorMessage);
+        setErrorMessage("");
+      }
+      else{
+        const errorResponse = error.response.data;
+        setErrorMessage(errorResponse);
+        setPasswordErrorMessage([]);
+      }
+
     } finally {
       setLoading(false);
     }
@@ -88,7 +101,14 @@ function SignUp() {
                 <br /> <br />
                 <button type="submit">Registrieren</button>
                 <br /> <br />
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                <p style={{ color: "red" }}>{errorMessage}</p>
+
+                {passwordErrorMessage.map((elem) => (
+                  <div key={elem.code}>
+                    <p style={{color: "red"}}> - {elem.description}</p>
+                  </div>
+                ))}
+
               </form>
             </div>
             <img src={davinci} alt="Napoleon" id="daVinci" />

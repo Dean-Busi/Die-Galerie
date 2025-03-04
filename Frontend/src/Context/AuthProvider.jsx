@@ -4,7 +4,9 @@ import axios from "axios";
 
 const AuthContext = createContext({});
 
-const api = axios.create({ baseURL: "http://localhost:5068" });
+const port = import.meta.env.VITE_API_URL;
+
+const api = axios.create({ baseURL: `${port}` });
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ isAuthenticated: false, user: null });
@@ -36,7 +38,7 @@ export const AuthProvider = ({ children }) => {
           setAuth({ isAuthenticated: false, user: null });
         }
       } catch (error) {
-        console.error("Error during token verification:", error);
+        console.error("Error bei Token Verifizierung:", error);
         setAuth({ isAuthenticated: false, user: null });
       } finally {
         setLoading(false);
