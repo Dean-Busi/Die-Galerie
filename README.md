@@ -1,1 +1,0 @@
-Gruppe: Dejan, Earl, Daniela
