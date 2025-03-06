@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: dejanbusi/galerie-frontend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./docker-compose.yaml
 
   deploy:
     runs-on: ubuntu-latest
