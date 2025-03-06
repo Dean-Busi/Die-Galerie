@@ -13,6 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Debug Repository Contents
+      run: ls -R   # Prüft, ob galerie-backend wirklich existiert
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -25,16 +28,16 @@ jobs:
     - name: Build and push backend container image
       uses: docker/build-push-action@v3
       with:
-        context: ./backend
-        file: ./backend/Dockerfile
+        context: ./galerie-backend   # Korrigierter Pfad
+        file: ./galerie-backend/Dockerfile
         push: true
         tags: dejanbusi/galerie-backend:${{ github.sha }}
 
     - name: Build and push frontend container image
       uses: docker/build-push-action@v3
       with:
-        context: ./frontend
-        file: ./frontend/Dockerfile
+        context: ./galerie-frontend   # Falls dein Frontend auch angepasst wurde
+        file: ./galerie-frontend/Dockerfile
         push: true
         tags: dejanbusi/galerie-frontend:${{ github.sha }}
 
