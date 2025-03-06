@@ -22,15 +22,15 @@ jobs:
     - name: Log in to registry
       uses: docker/login-action@v2
       with:
-        registry: docker.io
-        username: ${{ secrets.AzureAppService_ContainerUsername_2684c499f2fe4dedb3dcb378cd3df7a2 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_6d777363cd8d42849f34467f34c5c34e }}
+        registry: https://index.docker.io/v1/
+        username: ${{ secrets.AzureAppService_ContainerUsername_302763ea2e4946129fa9f287bce7df4a }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_72c1ceb1dc704155bf0694cd3d5ecb3b }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ secrets.AzureAppService_ContainerUsername_2684c499f2fe4dedb3dcb378cd3df7a2 }}/dejanbusi/galerie:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_302763ea2e4946129fa9f287bce7df4a }}/dejanbusi/galerie:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'Galerie'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d6542b84d08a4d88afe49a17887e6073 }}
-        images: '${{ secrets.AzureAppService_ContainerUsername_2684c499f2fe4dedb3dcb378cd3df7a2 }}/dejanbusi/galerie:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5c78c0ee8afb4bd1a7ea0afc8760a89f }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_302763ea2e4946129fa9f287bce7df4a }}/dejanbusi/galerie:${{ github.sha }}'
