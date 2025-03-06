@@ -1,7 +1,7 @@
 services:
   frontend:
     build: ./Frontend
-    image: dejanbusi/galerie:frontend:latest
+    image: dejanbusi/galerie:frontend
     container_name: frontend
     ports:
       - 4173:4173
@@ -13,7 +13,7 @@ services:
 
   backend:
     build: ./Backend
-    image: dejanbusi/galerie:backend:latest
+    image: dejanbusi/galerie:backend
     container_name: backend
     ports:
       - 8080:8080
@@ -33,7 +33,7 @@ services:
 
   mssql:
     build: ./Database
-    image: dejanbusi/galerie:database:latest
+    image: dejanbusi/galerie:database
     container_name: database
     environment:
       - ACCEPT_EULA=Y
