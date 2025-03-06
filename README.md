@@ -1,1 +1,1 @@
-Gruppe: Dejan, Earl, Joey 
+Gruppe: Dejan, Earl, Daniela
