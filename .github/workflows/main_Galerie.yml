@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_8b08c4b07a34462b94481399faea44bf }}/dejanbusi/galerie-frontend:${{ github.sha }}
+        tags: dejanbusi/galerie-frontend:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
