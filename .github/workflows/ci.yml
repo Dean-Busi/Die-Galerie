@@ -25,18 +25,18 @@ jobs:
     - name: Build and push backend container image
       uses: docker/build-push-action@v3
       with:
+        context: ./galerie-backend
+        file: ./galerie-backend/Dockerfile
         push: true
         tags: dejanbusi/galerie-backend:${{ github.sha }}
-        file: ./backend/Dockerfile
-        context: ./backend
 
     - name: Build and push frontend container image
       uses: docker/build-push-action@v3
       with:
+        context: ./galerie-frontend
+        file: ./galerie-frontend/Dockerfile
         push: true
         tags: dejanbusi/galerie-frontend:${{ github.sha }}
-        file: ./frontend/Dockerfile
-        context: ./frontend
 
   deploy:
     runs-on: ubuntu-latest
