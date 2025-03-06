@@ -30,8 +30,8 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ secrets.AzureAppService_ContainerUsername_2684c499f2fe4dedb3dcb378cd3df7a2 }}/dejanbusi/galerie:${{ github.sha }}
-        file: ./Dockerfile
+        tags: dejanbusi/galerie:${{ github.sha }}
+        file: ./docker-compose.yaml
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,4 +47,4 @@ jobs:
       with:
         app-name: 'Galerie'
         slot-name: 'production'
-        images: '${{ secrets.AzureAppService_ContainerUsername_2684c499f2fe4dedb3dcb378cd3df7a2 }}/dejanbusi/galerie:${{ github.sha }}'
+        images: 'dejanbusi/galerie:${{ github.sha }}'
