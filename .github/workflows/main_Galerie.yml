@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy container app to Azure Web App - Galerie
 
 on:
@@ -11,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -19,33 +16,47 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Log in to registry
+    - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_8b08c4b07a34462b94481399faea44bf }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_d482ac63a3784d7a94f3711d0c56c006 }}
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-    - name: Build and push container image to registry
+    - name: Build and push backend container image
       uses: docker/build-push-action@v3
       with:
+        context: ./backend
+        file: ./backend/Dockerfile
+        push: true
+        tags: dejanbusi/galerie-backend:${{ github.sha }}
+
+    - name: Build and push frontend container image
+      uses: docker/build-push-action@v3
+      with:
+        context: ./frontend
+        file: ./frontend/Dockerfile
         push: true
         tags: dejanbusi/galerie-frontend:${{ github.sha }}
-        file: ./docker-compose.yaml
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Log in to Azure
+      uses: azure/login@v1
       with:
-        app-name: 'Galerie'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3379a30369744d49b1cc3e842a2f3348 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_8b08c4b07a34462b94481399faea44bf }}/dejanbusi/galerie-frontend:${{ github.sha }}'
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy Docker Compose configuration to Azure
+      run: |
+        az webapp config container set \
+          --name Galerie \
+          --resource-group <RESOURCE_GROUP> \
+          --multicontainer-config-type compose \
+          --multicontainer-config-file docker-compose.yml
