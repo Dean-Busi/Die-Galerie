@@ -17,6 +17,7 @@ export default defineConfig({
 
   // Production
   preview: {
+    allowedHosts: ["*"],
     watch: {
       usePolling: true,
     },
@@ -25,8 +26,7 @@ export default defineConfig({
     port: 4173,
   },
 
-  
-  // Das "build"-Profil musst du eigentlich im Docker-Container einsetzen, 
+  // Das "build"-Profil musst du eigentlich im Docker-Container einsetzen,
   // wenn du deine Applikation hochschalten möchtest ↓
 
   // build: {
@@ -38,4 +38,3 @@ export default defineConfig({
   //   port: 4173,
   // },
 });
-
