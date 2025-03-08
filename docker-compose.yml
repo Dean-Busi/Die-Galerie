@@ -32,7 +32,6 @@ services:
     restart: on-failure
 
   mssql:
-    # build: ./Database
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: database
     environment:
@@ -52,3 +51,4 @@ networks:
 volumes:
   sqlserver_data:
 
+  
