@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsProduction())
+if (app.Environment.IsProduction() || true)
 {
     using (var scope = app.Services.CreateScope())
     {
