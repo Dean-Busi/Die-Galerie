@@ -17,7 +17,7 @@ export default defineConfig({
 
   // Production
   preview: {
-    allowedHosts: ["die-galerie-i883.onrender.com"],
+    allowedHosts: ["die-galerie-frontend-ayep.onrender.com"],
     watch: {
       usePolling: true,
     },
