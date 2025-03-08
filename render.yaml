@@ -23,6 +23,7 @@ services:
     dockerContext: .
     dockerfilePath: ./Dockerfile
     rootDir: Frontend
+databases:
   - name: Die-Galerie Database
     databaseName: galerie_9rpt
     user: galerie_9rpt_user
