@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(option =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
@@ -87,7 +87,7 @@ builder.Services.AddCors((options) =>
 {
     options.AddPolicy("ReactApp", (builder) =>
     {
-        builder.WithOrigins("http://localhost:5173", "http://localhost:4173")
+        builder.WithOrigins("http://localhost:5173", "http://localhost:4173", "https://die-galerie-frontend-ayep.onrender.com")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials();
@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsProduction())
+if (app.Environment.IsProduction() || true)
 {
     using (var scope = app.Services.CreateScope())
     {

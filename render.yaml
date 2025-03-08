@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: Die-Galerie Backend
+    runtime: docker
+    repo: https://github.com/yeritsyan/Die-Galerie
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+    region: frankfurt
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    rootDir: Backend
+  - type: web
+    name: Die-Galerie Frontend
+    runtime: docker
+    repo: https://github.com/yeritsyan/Die-Galerie
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    region: frankfurt
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    rootDir: Frontend
+databases:
+  - name: Die-Galerie Database
+    databaseName: galerie_9rpt
+    user: galerie_9rpt_user
+    plan: free
+    region: frankfurt
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
+    postgresMajorVersion: "16"
+version: "1"
