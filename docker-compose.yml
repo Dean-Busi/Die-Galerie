@@ -1,7 +1,7 @@
 services:
   frontend:
     build: ./Frontend
-    image: dejanbusi/galerie:frontend
+    image: dejanbusi/galerie-frontend
     container_name: frontend
     ports:
       - 4173:4173
@@ -13,7 +13,7 @@ services:
 
   backend:
     build: ./Backend
-    image: dejanbusi/galerie:backend
+    image: dejanbusi/galerie-backend
     container_name: backend
     ports:
       - 8080:8080
@@ -32,8 +32,8 @@ services:
     restart: on-failure
 
   mssql:
-    build: ./Database
-    image: dejanbusi/galerie:database
+    # build: ./Database
+    image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: database
     environment:
       - ACCEPT_EULA=Y

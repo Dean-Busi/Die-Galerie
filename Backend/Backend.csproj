@@ -2,12 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-
-    <!-- Mit diesesen beiden Zeilen unten schalten wir angeblich die Null-Reference Errors aus. -->
-    <NoWarn>CS8618;CS8602;CS8601</NoWarn>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     
   </PropertyGroup>
 

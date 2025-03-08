@@ -30,12 +30,9 @@ export default defineConfig({
   // wenn du deine Applikation hochschalten möchtest ↓
 
   // build: {
-  //   watch: {
-  //     usePolling: true,
+  //   rollupOptions: {
+  //     // https://rollupjs.org/configuration-options/
   //   },
-  //   host: true,
-  //   strictPort: true,
-  //   port: 4173,
   // },
 });
 
