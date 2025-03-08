@@ -87,7 +87,7 @@ builder.Services.AddCors((options) =>
 {
     options.AddPolicy("ReactApp", (builder) =>
     {
-        builder.WithOrigins("http://localhost:5173", "http://localhost:4173", "https://die-galerie-i883.onrender.com/")
+        builder.WithOrigins("http://localhost:5173", "http://localhost:4173", "https://die-galerie-i883.onrender.com")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials();
