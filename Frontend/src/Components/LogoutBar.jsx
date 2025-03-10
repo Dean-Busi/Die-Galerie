@@ -12,6 +12,7 @@ function LogoutBar() {
       await logout();
       sessionStorage.clear();
       localStorage.clear();
+    
       navigate("/");
     } catch (error) {
       console.log(error);

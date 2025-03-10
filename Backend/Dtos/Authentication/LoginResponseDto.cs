@@ -10,5 +10,7 @@ namespace Backend.Dtos
         public string Email { get; set; }
 
         public string AccessToken { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }

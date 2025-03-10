@@ -25,28 +25,23 @@ function SignUp() {
     event.preventDefault();
 
     const newUser = { email, password, confirmPassword };
- 
+
     try {
       setLoading(true);
-      const response = await api.post("/account/register", newUser);
+      const response = await api.post("/api/account/register", newUser);
       console.log(response.data.message);
       sessionStorage.setItem("Signup response", response.data.message);
       navigate("/login");
-      
     } catch (error) {
-
-      if(error.response.status == 500)
-      {
+      if (error.response.status == 500) {
         const passwordErrorMessage = error.response.data;
         setPasswordErrorMessage(passwordErrorMessage);
         setErrorMessage("");
-      }
-      else{
+      } else {
         const errorResponse = error.response.data;
         setErrorMessage(errorResponse);
         setPasswordErrorMessage([]);
       }
-
     } finally {
       setLoading(false);
     }
@@ -102,13 +97,11 @@ function SignUp() {
                 <button type="submit">Registrieren</button>
                 <br /> <br />
                 <p style={{ color: "red" }}>{errorMessage}</p>
-
                 {passwordErrorMessage.map((elem) => (
                   <div key={elem.code}>
-                    <p style={{color: "red"}}> - {elem.description}</p>
+                    <p style={{ color: "red" }}> - {elem.description}</p>
                   </div>
                 ))}
-
               </form>
             </div>
             <img src={davinci} alt="Napoleon" id="daVinci" />
@@ -129,12 +122,11 @@ function SignUp() {
 
           <div id="vorteile_Registrieren">
             <h2>Vorteile beim Registrieren:</h2>
-            <ul>
-              <li>Siehe die gesamte Auswahl an</li>
-              <li>Bewerte und kommentiere die Gemälder</li>
-              <li>Kontaktiere den Schöpfer (mich)</li>
-              <li>Angenehme Jazz-Hintergrundmusik spielt</li>
-            </ul>
+
+            <li>Siehe die gesamte Auswahl an</li>
+            <li>Bewerte und kommentiere die Gemälder</li>
+            <li>Kontaktiere den Schöpfer (mich)</li>
+            <li>Angenehme Jazz-Hintergrundmusik spielt</li>
           </div>
         </div>
       )}

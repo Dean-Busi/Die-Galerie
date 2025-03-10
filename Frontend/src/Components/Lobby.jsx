@@ -133,13 +133,19 @@ function Lobby() {
       {
         !auth.isAuthenticated && (
           <div>
-            Willst du die gesamte Auswahl ansehen?{" "}
+
+            <h2>
+
+            Möchtest du die gesamte Auswahl ansehen?{" "}
+            </h2>
             <NavLink to="/login">
               <h2> Melde dich an</h2>
             </NavLink>
           </div>
         )
       }
+
+      <br /> 
 
       <h2>Fragen oder Anregungen?</h2>
 

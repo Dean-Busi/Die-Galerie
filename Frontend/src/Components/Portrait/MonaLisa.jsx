@@ -3,6 +3,7 @@ import stern2 from "../../Assets/Bilder/stern2.png";
 import stern3 from "../../Assets/Bilder/stern3.png";
 import stern4 from "../../Assets/Bilder/stern4.png";
 import stern5 from "../../Assets/Bilder/stern5.png";
+import useAuth from "../../Context/useAuth";
 import monaLisa from "../../Assets/Bilder/MonaLisa.webp";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
@@ -27,39 +28,28 @@ function MonaLisa() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleFocus = () => {
-    let stern = document
-      .getElementsByClassName("bewertungsStern")
-      .addEventListener("focus", (stern.style.color = "red"));
-  };
+  const { auth } = useAuth();
 
   return (
     <section className="portrait_Page">
-      <h1>Mona Lisa</h1>
+      <h1 style={{ fontSize: "3vw" }}>Mona Lisa</h1>
       <div className="flexbox_Portrait">
-        <img
-          src={monaLisa}
-          alt="Batman"
-          style={{ width: "19%" }}
-          className="characterImage"
-        />
+        <img src={monaLisa} alt="Batman" className="characterImage" />
         <div className="flexbox_vertikal">
-          <p
-            style={{
-              fontFamily:
-                "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-              textAlign: "left",
-            }}
-          >
+          <p className="portraitParagraph">
             <br />
-            Jahr: ca. 1506 <br /> <br /> {/* Corrected <br> tags */}
-            Die Mona Lisa ist eines der bekanntesten Gemälde der Welt. Es zeigt eine Frau mit einem
-            geheimnisvollen Lächeln, das zu einem der berühmtesten Merkmale des
-            Bildes geworden ist. Das Gemälde befindet sich im Louvre-Museum in
-            Paris und wurde dort 1797 ausgestellt. Die Identität der
-            abgebildeten Frau ist nicht eindeutig geklärt, aber viele Historiker
-            vermuten, dass es sich um Lisa Gherardini, die Frau des
-            florentinischen Kaufmanns Francesco del Giocondo, handelt. Daher
+            <h3>Jahr: ca. 1506 <br /> <br />
+
+            Künstler: Leondardo DaVinci (Italien)            
+            </h3>
+
+            Die Mona Lisa ist eines der bekanntesten Gemälde der Welt. Es zeigt
+            eine Frau mit einem geheimnisvollen Lächeln, das zu einem der
+            berühmtesten Merkmale des Bildes geworden ist. Das Gemälde befindet
+            sich im Louvre-Museum in Paris und wurde dort 1797 ausgestellt. Die
+            Identität der abgebildeten Frau ist nicht eindeutig geklärt, aber
+            viele Historiker vermuten, dass es sich um Lisa Gherardini, die Frau
+            des florentinischen Kaufmanns Francesco del Giocondo, handelt. Daher
             auch der Name La Gioconda im Italienischen. Die Mona Lisa ist
             bekannt für ihre innovative Verwendung von Licht und Schatten sowie
             für die sanften Übergänge zwischen den Gesichtszügen, was für die
@@ -71,82 +61,81 @@ function MonaLisa() {
       </div>
       <br /> <br />
       <footer className="footer">
-        <h2
-          style={{
-            color: "white",
-            fontFamily:
-              "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-          }}
-        >
-          Bewerte dieses Bild:
-        </h2>
+        {auth.isAuthenticated && (
+          <>
+            <h2
+              style={{
+                color: "white",
+                fontFamily:
+                  "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+              }}
+            >
+              Bewerte dieses Bild:
+            </h2>
+            <br /> 
+            {/* Formular */}
+            <div>
+              <form method="POST">
+                <div className="Bewertung">
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={1} />1
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={2} />2
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={3} />3
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={4} />4
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={5} />5
+                  </label>
+                </div>
+                <br />
+       
+            <div>
+
+              <h2
+                style={{
+                  color: "white",
+                  fontFamily:
+                    "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+                }}
+              >
+                Deine Meinung zum Bild:
+              </h2>
+              <textarea
+                id="textFeld"
+                rows={10}
+                cols={60}
+                placeholder="Dein Kommentar"
+              />
+            </div> <br />
+            <button type="submit">Absenden</button>
+              </form>
+            </div>
+          </>
+        )}
+
         <br /> <br />
-        {/* Formular */}
-        <div className="sternBewertung">
-          <form method="POST">
-            <label>
-              <input type="radio" name="bewertung" value={1} />
-              <img
-                src={stern1}
-                onClick={handleFocus}
-                className="bewertungsStern"
-                alt=""
-              />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={2} />
-              <img
-                src={stern2}
-                onClick={handleFocus}
-                className="bewertungsStern"
-                alt=""
-              />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={3} />
-              <img
-                src={stern3}
-                onClick={handleFocus}
-                className="bewertungsStern"
-                alt=""
-              />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={4} />
-              <img
-                src={stern4}
-                onClick={handleFocus}
-                className="bewertungsStern"
-                alt=""
-              />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={5} />
-              <img
-                src={stern5}
-                onClick={handleFocus}
-                className="bewertungsStern"
-                alt=""
-              />
-            </label>
-            <br /> <br />
-            <button type="submit">Bewertung Abgeben</button>
-          </form>
+
+        <div className="bildKommentierenFrage">
+          {!auth.isAuthenticated && (
+            <div>
+              Möchtest du das Gemälde bewerten und kommentieren?
+              <NavLink to="/login">
+                <h2> Melde dich an</h2>
+              </NavLink>
+            </div>
+          )}
         </div>
-        <div>
-          <br /> <br />
-          <h2
-            style={{
-              color: "white",
-              fontFamily:
-                "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-            }}
-          >
-            Deine Meinung zum Bild:
-          </h2>
-          <textarea></textarea>
-        </div>
-        <br /> <br /> <br /> <br />
+        <br /> 
         <div style={{ textAlign: "center" }}>
           <NavLink
             to="/lobby"
@@ -162,4 +151,4 @@ function MonaLisa() {
   );
 }
 
-export default MonaLisa; // Changed the export name to match the function
+export default MonaLisa;

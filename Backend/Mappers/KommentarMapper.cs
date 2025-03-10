@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Dtos;
+using Backend.Dtos.Kommentare;
 using Backend.Models;
 
 namespace Backend.Mappers
@@ -13,17 +14,18 @@ namespace Backend.Mappers
         {
             return new KommentarDto
             {
-                GepostedVon = kommentarModel.GepostedVon,
+                Id = kommentarModel.Id,
+                GepostetVon = kommentarModel.GepostetVon,
                 Inhalt = kommentarModel.Inhalt,
-                GepostetAm = kommentarModel.GepostetAm
+                GepostetAm = kommentarModel.GepostetAm,
             };
         }
 
-        public static Kommentar ToKommentarFromCreateDto(this CreateKommentarDto createKommentarDto)
+        public static Kommentar ToKommentarFromCreateDto(this CreateKommentarDto createKommentarDto, int gemaeldeId)
         {
             return new Kommentar
             {
-                GepostedVon = createKommentarDto.GepostedVon,
+                GepostetVon = createKommentarDto.GepostetVon,
                 Inhalt = createKommentarDto.Inhalt,
             };
         }
@@ -32,6 +34,7 @@ namespace Backend.Mappers
         {
             return new Kommentar
             {
+                GepostetVon = updateKommentarDto.
                 Inhalt = updateKommentarDto.Inhalt,
             };
         }

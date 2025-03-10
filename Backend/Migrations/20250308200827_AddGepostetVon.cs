@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class AddGepostetVon : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,17 +55,18 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Kommentare",
+                name: "Gemaelder",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GepostedVon = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Inhalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GepostetAm = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KommentarId = table.Column<int>(type: "int", nullable: true),
+                    BewertungId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kommentare", x => x.Id);
+                    table.PrimaryKey("PK_Gemaelder", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,13 +175,53 @@ namespace Backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Bewertungen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<float>(type: "real", nullable: false),
+                    GemaeldeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bewertungen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bewertungen_Gemaelder_GemaeldeId",
+                        column: x => x.GemaeldeId,
+                        principalTable: "Gemaelder",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kommentare",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GepostetVon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Inhalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GepostetAm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GemaeldeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kommentare", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Kommentare_Gemaelder_GemaeldeId",
+                        column: x => x.GemaeldeId,
+                        principalTable: "Gemaelder",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0d1ecc13-4c37-4756-87c2-52d3657be36d", null, "User", "USER" },
-                    { "6a6fffcb-f6a0-4a51-80c8-b0e03696748b", null, "Admin", "ADMIN" }
+                    { "c9181629-9645-448f-aeff-66f6bed7dab1", null, "Admin", "ADMIN" },
+                    { "cc67a860-876d-4666-928e-cafa2b84ab4b", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -221,6 +262,16 @@ namespace Backend.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bewertungen_GemaeldeId",
+                table: "Bewertungen",
+                column: "GemaeldeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Kommentare_GemaeldeId",
+                table: "Kommentare",
+                column: "GemaeldeId");
         }
 
         /// <inheritdoc />
@@ -242,6 +293,9 @@ namespace Backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bewertungen");
+
+            migrationBuilder.DropTable(
                 name: "Kommentare");
 
             migrationBuilder.DropTable(
@@ -249,6 +303,9 @@ namespace Backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Gemaelder");
         }
     }
 }

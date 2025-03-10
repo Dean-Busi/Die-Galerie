@@ -1,6 +1,7 @@
 using System.Text;
 using Backend;
 using Backend.Data;
+using Backend.Interface;
 using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -93,6 +94,8 @@ builder.Services.AddCors((options) =>
         .AllowCredentials();
     });
 });
+
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 var app = builder.Build();
 

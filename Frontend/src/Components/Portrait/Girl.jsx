@@ -3,6 +3,8 @@ import stern2 from "../../Assets/Bilder/stern2.png";
 import stern3 from "../../Assets/Bilder/stern3.png";
 import stern4 from "../../Assets/Bilder/stern4.png";
 import stern5 from "../../Assets/Bilder/stern5.png";
+import useAuth from "../../Context/useAuth";
+import girl from "../../Assets/Bilder/Girl.webp";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -21,26 +23,41 @@ const handleLogoOver = () => {
 };
 
 function MonaLisa() {
+  // Scrollt das Fenster ganz oben sobald es aufgemacht wird
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    // Scrollt das Fenster ganz oben sobald es aufgemacht wird
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  const { auth } = useAuth();
 
   return (
-    <>
-
-      <h1>Mona Lisa</h1>
-
-      <section className="character_page">
-        <div className="flexbox_characters">
-          <img
-            src={batman}
-            alt="Batman"
-            style={{ width: "19%" }}
-            className="characterImage"
-          />
-          <div className="flexbox_vertikal">
+    <section className="portrait_Page">
+      <h1 style={{ fontSize: "3vw" }}>Das Mädchen</h1>
+      <div className="flexbox_Portrait">
+        <img src={girl} alt="Batman" className="characterImage" />
+        <div className="flexbox_vertikal">
+          <p className="portraitParagraph">
+            <h3>
+              Jahr: ca. 1665 <br /> <br />
+              Künstler: Johannes Vermeer (Niederlande)
+            </h3>
+            Das Mädchen mit dem Perlenohrring von Johannes Vermeer gilt als
+            eines seiner bekanntesten Werke. Es zeigt ein junges Mädchen in
+            einem einfachen, aber eleganten blauen Kleid und einem gelben
+            Turban, das einen auffälligen Perlenohrring trägt. Das Gemälde ist
+            für seine intime, fast geheimnisvolle Atmosphäre bekannt, wobei das
+            Mädchen den Betrachter mit einem sanften Blick ansieht. Die
+            Beleuchtung und der Einsatz von Farben verleihen dem Bild eine
+            besondere Tiefe und Faszination. Das Mädchen mit dem Perlenohrring
+            wird oft als "das Mona Lisa des Nordens" bezeichnet und befindet
+            sich heute im Mauritshuis in Den Haag.
+          </p>
+        </div>
+      </div>
+      <br /> <br />
+      <footer className="footer">
+        {auth.isAuthenticated && (
+          <>
             <h2
               style={{
                 color: "white",
@@ -48,89 +65,82 @@ function MonaLisa() {
                   "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
               }}
             >
-              Batman {/* Changed heading to "Batman" */}
+              Bewerte dieses Bild:
             </h2>
+            <br />
+            {/* Formular */}
+            <div>
+              <form method="POST">
+                <div className="Bewertung">
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={1} />1
+                  </label>
 
-            <p
-              style={{
-                fontFamily:
-                  "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-                textAlign: "left",
-              }}
-            >
-              Erster Auftritt: 1939 <br /> <br /> {/* Corrected <br> tags */}
-              Nach dem Mord an seinen Eltern als Kind schwor Bruce Wayne,
-              Verbrechen zu bekämpfen. Er trainierte intensiv und nutzte sein
-              Erbe, um sich als Meisterdetektiv und Kampfexperte zu entwickeln.
-              So nahm er anschliessend die Persona des Batman an. Ohne
-              Superkräfte verlässt er sich auf Intelligenz, Technik und
-              körperliche Fähigkeiten. Als Batman beschützt er Gotham City,
-              operiert aus seiner geheimen Höhle (Batcave) und arbeitet oft mit
-              seinem Butler Alfred Pennyworth und Verbündeten wie Robin und
-              Commissioner Gordon zusammen, um gegen Superschurken wie den Joker
-              und Two-Face zu kämpfen.
-            </p>
-          </div>
-          <img
-            src={batman_liveAction}
-            alt="Batman Live Action"
-            style={{ width: "18%" }}
-            className="characterImage"
-          />
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={2} />2
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={3} />3
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={4} />4
+                  </label>
+
+                  <label className="radioButtons">
+                    <input type="radio" name="bewertung" value={5} />5
+                  </label>
+                </div>
+                <br />
+                <div>
+                  <h2
+                    style={{
+                      color: "white",
+                      fontFamily:
+                        "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+                    }}
+                  >
+                    Deine Meinung zum Bild:
+                  </h2>
+                  <textarea
+                    id="textFeld"
+                    rows={10}
+                    cols={60}
+                    placeholder="Dein Kommentar"
+                  />
+                </div>{" "}
+                <br />
+                <button type="submit">Absenden</button>
+              </form>
+            </div>
+          </>
+        )}
+        <br /> <br />
+        <div className="bildKommentierenFrage">
+          {!auth.isAuthenticated && (
+            <div>
+              Möchtest du das Gemälde bewerten und kommentieren?
+              <NavLink to="/login">
+                <h2> Melde dich an</h2>
+              </NavLink>
+            </div>
+          )}
         </div>
-        <br /> <br />
-        <br /> <br />
-        <footer className="footer">
-          <h2
-            style={{
-              color: "white",
-              fontFamily:
-                "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-            }}
+        <br />
+        <div style={{ textAlign: "center" }}>
+          <NavLink
+            to="/lobby"
+            className="zurueckZurLobby"
+            onClick={handleZurueckButton}
+            onMouseOver={handleLogoOver}
           >
-            Wieviele Punkte gibst du diesem Charakter?
-          </h2>
-          <br /> <br />
-          {/* Formular */}
-          <form method="POST">
-            <label>
-              <input type="radio" name="bewertung" value={1} />
-              <img src={stern1} className="bewertungsStern" alt="" />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={2} />
-              <img src={stern2} className="bewertungsStern" alt="" />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={3} />
-              <img src={stern3} className="bewertungsStern" alt="" />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={4} />
-              <img src={stern4} className="bewertungsStern" alt="" />
-            </label>
-            <label>
-              <input type="radio" name="bewertung" value={5} />
-              <img src={stern5} className="bewertungsStern" alt="" />
-            </label>
-            <br /> <br /> <br /> <br />
-            <button type="submit">Absenden</button>
-          </form>
-          <br /> <br /> <br /> <br />
-          <div style={{ textAlign: "center" }}>
-            <NavLink
-              to="/dc"
-              className="zurueckZuStartseite"
-              onClick={handleZurueckButton}
-              onMouseOver={handleLogoOver}
-            >
-              Zurück zu DC Comics
-            </NavLink>
-          </div>
-        </footer>
-      </section>
-    </>
+            <h2>Zurück zur Lobby</h2>
+          </NavLink>
+        </div>
+      </footer>
+    </section>
   );
 }
 
-export default MonaLisa; // Changed the export name to match the function
+export default MonaLisa;

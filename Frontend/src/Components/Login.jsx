@@ -34,28 +34,13 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const loginCredentials = { email, password };
+    const loginCredentials = { email, password, rememberMe };
 
     try {
 
-      const withCredentials = rememberMe;
-
-      const response = await api.post("/account/login", loginCredentials, {
+      const response = await api.post("/api/account/login", loginCredentials, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: withCredentials,
-      });
-
-      console.log(response);
-
-      const accessToken = response.data.user.accessToken;
-
-      if(!rememberMe) {
-        sessionStorage.setItem("accessToken", accessToken)
-      }
-
-      setAuth({
-        isAuthenticated: true,
-        user: response.data.user,
+        withCredentials: true,
       });
 
       navigate("/lobby");

@@ -16,30 +16,26 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyTokens = async () => {
       setLoading(true);
-
-      const sessionStorageToken = sessionStorage.getItem("accessToken");
-
-      if (sessionStorageToken) {
-        setAuth({ isAuthenticated: true, user: true });
-        setLoading(false);
-        return;
-      }
-
+      
       try {
-        const response = await api.post(
-          "/api/account/refreshToken",
+    
+      // Bei jeder Route soll geprüft werden, ob ein accessToken in der Storage ist, für die Erneuerung
+      await api.post("/api/account/refreshToken", {}, { withCredentials: true });
+        
+        const response = await api.post("/api/account/checkAccessToken",
           {},
           { withCredentials: true }
         );
 
-        if (response.data.accessToken) {
-          setAuth({ isAuthenticated: true, user: response.data.user });
+        if (response.status == 200) {
+          setAuth({ isAuthenticated: true });
         } else {
-          setAuth({ isAuthenticated: false, user: null });
+          setAuth({ isAuthenticated: false });
         }
       } catch (error) {
         console.error("Error bei Token Verifizierung:", error);
-        setAuth({ isAuthenticated: false, user: null });
+        setAuth({ isAuthenticated: false });
+
       } finally {
         setLoading(false);
       }
@@ -50,9 +46,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await api.post("/api/account/logout", {}, { withCredentials: true });
-      setAuth({ isAuthenticated: false, user: null });
-      sessionStorage.removeItem("accessToken");
+      await api.post("api/account/logout", {}, { withCredentials: true });
+      setAuth({ isAuthenticated: false });
     } catch (error) {
       console.log("Logout error:", error);
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Data;
 using Backend.Dtos;
+using Backend.Dtos.Kommentare;
 using Backend.Mappers;
 using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("comments")]
+    [Route("api/kommentare")]
     public class KommentarController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -25,13 +26,22 @@ namespace Backend.Controllers
 
         /////////////////////////////////////////////////////////////
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateKommentarDto kommentarDto)
+        [HttpPost("{gemaeldeId}")]
+        public async Task<IActionResult> Create([FromRoute] int gemaeldeId, CreateKommentarDto createKommentarDto)
         {
-            var kommentarToCreate = kommentarDto.ToKommentarFromCreateDto();
-            await _context.Kommentare.AddAsync(kommentarToCreate);
+            var gemaeldeExists = await _context.Gemaelder.AnyAsync(s => s.Id == gemaeldeId);
+
+            if (gemaeldeExists == false)
+            {
+                return BadRequest("Das gesuchte Gemälde exisitiert nicht.");
+            }
+
+            var kommentarToPost = createKommentarDto.ToKommentarFromCreateDto(gemaeldeId);
+
+            await _context.Kommentare.AddAsync(kommentarToPost);
             await _context.SaveChangesAsync();
-            return Ok("Dein Kommentar wurde gepostet.");
+
+            return CreatedAtAction(nameof(GetById), new { id = kommentarToPost.Id }, kommentarToPost.ToKommentarDto());
         }
 
         [HttpGet]
@@ -42,13 +52,33 @@ namespace Backend.Controllers
             return Ok(kommentareDto);
         }
 
-        [HttpPut]
-        [Route("{inhalt}")]
-        public async Task<IActionResult> Update([FromRoute] string inhalt, [FromBody] UpdateKommentarDto updateDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var kommentarToUpdate = await _context.Kommentare.FirstOrDefaultAsync(x => x.Inhalt == inhalt);
+            var kommentar = await _context.Kommentare.FindAsync(id);
+
+            if (kommentar == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(kommentar.ToKommentarDto());
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateKommentarDto updateDto)
+        {
+            var kommentarToUpdate = await _context.Kommentare.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (kommentarToUpdate == null)
+            {
+                return NotFound("Der gesuchte Kommentar wurde nicht gefunden.");
+            }
+
             var updatedKommentar = updateDto.ToKommentarFromUpdateDto();
 
+            kommentarToUpdate.GepostetVon = updatedKommentar.GepostetVon;
             kommentarToUpdate.Inhalt = updatedKommentar.Inhalt;
 
             await _context.SaveChangesAsync();

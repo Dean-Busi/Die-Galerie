@@ -22,22 +22,66 @@ namespace Backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Backend.Models.Bewertung", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("GemaeldeId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Rating")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GemaeldeId");
+
+                    b.ToTable("Bewertungen");
+                });
+
+            modelBuilder.Entity("Backend.Models.Gemaelde", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Gemaelder");
+                });
+
             modelBuilder.Entity("Backend.Models.Kommentar", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<string>("GepostedVon")
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("GemaeldeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("GepostetAm")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("GepostetVon")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Inhalt")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GemaeldeId");
 
                     b.ToTable("Kommentare");
                 });
@@ -89,6 +133,9 @@ namespace Backend.Migrations
 
                     b.Property<DateTime?>("RefreshTokenExpiryTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("RememberMe")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -142,13 +189,13 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a6fffcb-f6a0-4a51-80c8-b0e03696748b",
+                            Id = "cd248704-b63e-43c9-b049-9e43810a993d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0d1ecc13-4c37-4756-87c2-52d3657be36d",
+                            Id = "0d058442-c69b-474e-8bcf-ef96051be796",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -260,6 +307,24 @@ namespace Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Backend.Models.Bewertung", b =>
+                {
+                    b.HasOne("Backend.Models.Gemaelde", "Gemaelde")
+                        .WithMany("Bewertungen")
+                        .HasForeignKey("GemaeldeId");
+
+                    b.Navigation("Gemaelde");
+                });
+
+            modelBuilder.Entity("Backend.Models.Kommentar", b =>
+                {
+                    b.HasOne("Backend.Models.Gemaelde", "Gemaelde")
+                        .WithMany("Kommentare")
+                        .HasForeignKey("GemaeldeId");
+
+                    b.Navigation("Gemaelde");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -309,6 +374,13 @@ namespace Backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Models.Gemaelde", b =>
+                {
+                    b.Navigation("Bewertungen");
+
+                    b.Navigation("Kommentare");
                 });
 #pragma warning restore 612, 618
         }

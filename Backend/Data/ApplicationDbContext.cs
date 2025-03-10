@@ -21,6 +21,10 @@ namespace Backend.Data
 
         public DbSet<Kommentar> Kommentare { get; set; }
 
+        public DbSet<Gemaelde> Gemaelder { get; set; }
+
+        public DbSet<Bewertung> Bewertungen { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
